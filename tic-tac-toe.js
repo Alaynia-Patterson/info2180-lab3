@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPlayer = 'X'; // Begin with player 'X'
     const gameState = Array(9).fill(null); // Keep track of the board
     const statusDiv = document.getElementById('status');
+    const newGameButton = document.querySelector('.btn'); //Select New Game button
 
 
     // Game winning patterns
@@ -22,10 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle square click
     function handleSquareClick(event){
         const square = event.target;
-        const index = Array.from(squares).indexOf(squares);
+        const index = Array.from(squares).indexOf(square);
 
         //Does nothing if the token is already taken
-        if (gameState[index] !== null ||statusDiv.classList.contains('you-won')){
+        if (gameState[index] !== null ||statusDiv.classList.contains('you-won')) {
             return;
         }
 
@@ -47,16 +48,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // This function checks if the current player won
     function checkWinner(player) {
-        return winningpatterns.some(patterns => {
-          return patterns.every(index => gameState[index] === player);
+        return winningpatterns.some(pattern => {
+          return pattern.every(index => gameState[index] === player);
         });
     }
 
         
-
     // Handle mouse over a square
     function handleMouseOver(event) {
-        const square = event. target;
+        const square = event.target;
         square.classList.add('hover');
     }
 
@@ -66,12 +66,32 @@ document.addEventListener('DOMContentLoaded', () => {
         square.classList.remove('hover');
     }
 
+    // Reset game
+    function resetGame(){
+        gameState.fill(null);// clear the game state array
+
+        //Clear board squares
+        squares.forEach(square => {
+            square.textContent = '';
+            square.classList.remove('X', 'O');
+        
+        });
+
+        // Reset current player to 'X'
+        currentPlayer = 'X';
+
+        // Reset status message
+        statusDiv.textContent = 'Move your mouse over a square and click to play an X or an O.';
+        statusDiv.classList.remove('you-won');
+    }
 
     //Add event listeners to the squares
     squares.forEach(square => {
-        squares.classList.add('square');
+        square.classList.add('square');
         square.addEventListener('click', handleSquareClick);
         square.addEventListener('mouseover', handleMouseOver);
         square.addEventListener('mouseout', handleMouseOut);
     });
+    // Add click event Listener
+    newGameButton.addEventListener('click', resetGame);
 });
