@@ -23,9 +23,25 @@ document.addEventListener('DOMContentLoaded', () => {
         //Alternate the current player
         currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
     }
-    //Iterates through each div and adds the 'square' class
+
+    // Handle mouse over a square
+    function handleMouseOver(event) {
+        const square = event. target;
+        square.classList.add('hover');
+    }
+
+    // Handle mouse out of a square
+    function handleMouseOut(event) {
+        const square = event.target;
+        square.classList.remove('hover');
+    }
+
+
+    //Add event listeners to the squares
     squares.forEach(square => {
         squares.classList.add('square');
         square.addEventListener('click', handleSquareClick);
+        square.addEventListener('mouseover', handleMouseOver);
+        square.addEventListener('mouseout', handleMouseOut);
     });
 });
